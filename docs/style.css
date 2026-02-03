@@ -96,3 +96,62 @@ td{font-size:0.92rem;}
 .badge.K2{border-color: rgba(244,114,182,0.45);}
 .footer{color:var(--muted); padding-bottom:2rem;}
 .copyable{cursor:pointer;}
+
+
+/* Layout: sidebar filters on the left */
+.layout{
+  display:grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1rem;
+  align-items:start;
+}
+.sidebar{position:sticky; top:1rem;}
+
+@media (max-width: 1050px){
+  .layout{grid-template-columns: 1fr;}
+  .sidebar{position:static;}
+}
+
+/* Filters: single-column layout */
+.filtersGrid{
+  display:flex;
+  flex-direction:column;
+  gap: 0.9rem;
+}
+.field.actions label{display:none;}
+
+/* Table header extras */
+.tableTop{
+  display:flex;
+  flex-direction:column;
+  gap: 0.7rem;
+  margin: 0.2rem 0 0.9rem;
+}
+.creditsLine{
+  color: var(--muted);
+  font-weight:700;
+}
+
+/* Collapsible definitions */
+details.defs{
+  border:1px solid var(--border);
+  border-radius: 0.9rem;
+  background: rgba(10,18,32,0.65);
+  padding: 0.6rem 0.75rem;
+}
+details.defs > summary{
+  cursor:pointer;
+  font-weight:800;
+  color: #cfe3ff;
+  list-style:none;
+}
+details.defs > summary::-webkit-details-marker{display:none;}
+details.defs > summary:after{
+  content: "▾";
+  float:right;
+  color: var(--muted);
+}
+details.defs[open] > summary:after{content:"▴";}
+.defsBody{margin-top:0.6rem; color: var(--text);}
+.defsBody p{margin:0.4rem 0;}
+.defsBody ul{margin:0.4rem 0 0.2rem 1.1rem;}

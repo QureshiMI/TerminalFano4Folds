@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Terminal Fano 4-Folds (CI2 & CI3) — Searchable Data</title>
+  <title>Terminal Fano 4-Folds (CI2 &amp; CI3) — Searchable Data</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="container">
-    <h1>Terminal Fano 4-Folds (codim 2 & 3) — Searchable Data</h1>
+    <h1>Terminal Fano 4-Folds (codim 2 &amp; 3) — Searchable Data</h1>
     <p class="lead">
       A client-side searchable catalogue of terminal Fano 4-fold weighted complete intersections (codimension 2 and 3).
       Filter by <strong>W</strong> (sum of ambient weights), basket size, and type (<strong>K0</strong>, <strong>K1</strong>, <strong>K2</strong>, <strong>CY3</strong>).
@@ -20,126 +20,136 @@
   </header>
 
   <main class="container">
-    <section class="card">
-      <h2>Filters</h2>
+    <div class="layout">
+      <aside class="sidebar">
+        <section class="card">
+          <h2>Filters</h2>
 
-      <div class="grid">
-        <div class="field">
-          <label>Codimension</label>
-          <div class="checks">
-            <label><input type="checkbox" id="codim2" checked> CI2 (codim 2)</label>
-            <label><input type="checkbox" id="codim3" checked> CI3 (codim 3)</label>
+          <div class="filtersGrid">
+            <div class="field">
+              <label>Codimension</label>
+              <div class="checks">
+                <label><input type="checkbox" id="codim2" checked> CI2 (codim 2)</label>
+                <label><input type="checkbox" id="codim3" checked> CI3 (codim 3)</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Type</label>
+              <div class="checks">
+                <label><input type="checkbox" class="typeCheck" value="CY3" checked> CY3</label>
+                <label><input type="checkbox" class="typeCheck" value="K0" checked> K0</label>
+                <label><input type="checkbox" class="typeCheck" value="K1" checked> K1</label>
+                <label><input type="checkbox" class="typeCheck" value="K2" checked> K2</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>W (sum of weights)</label>
+              <div class="row">
+                <input type="number" id="Wmin" placeholder="min (e.g. 0)" />
+                <span class="sep">to</span>
+                <input type="number" id="Wmax" placeholder="max (e.g. 121)" />
+              </div>
+              <div class="hint">For “W ≤ N”, fill only the max box. For “W ≥ N”, fill only the min box.</div>
+            </div>
+
+            <div class="field">
+              <label>Basket size (number of singularities)</label>
+              <div class="row">
+                <input type="number" id="Bmin" placeholder="min (e.g. 0)" />
+                <span class="sep">to</span>
+                <input type="number" id="Bmax" placeholder="max" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Text search</label>
+              <input type="text" id="q" placeholder="Search weights, degrees, basket text…" />
+              <div class="hint">Example: <code>1/17</code>, <code>1,1,2</code>, <code>2×</code></div>
+            </div>
+
+            <div class="field">
+              <label>Sort</label>
+              <select id="sort">
+                <option value="Wasc">W ↑</option>
+                <option value="Wdesc">W ↓</option>
+                <option value="Basc">Basket size ↑</option>
+                <option value="Bdesc">Basket size ↓</option>
+                <option value="codim">Codim (2→3)</option>
+                <option value="type">Type (CY3→K0→K1→K2)</option>
+                <option value="id">ID</option>
+              </select>
+            </div>
+
+            <div class="field actions">
+              <div class="row">
+                <button id="reset" class="btn secondary" type="button">Reset</button>
+                <button id="downloadCsv" class="btn" type="button">Download CSV</button>
+              </div>
+              <div class="hint" id="status">Loading…</div>
+            </div>
           </div>
-        </div>
+        </section>
+      </aside>
 
-        <div class="field">
-          <label>Type</label>
-          <div class="checks">
-            <label><input type="checkbox" class="typeCheck" value="CY3" checked> CY3</label>
-            <label><input type="checkbox" class="typeCheck" value="K0" checked> K0</label>
-            <label><input type="checkbox" class="typeCheck" value="K1" checked> K1</label>
-            <label><input type="checkbox" class="typeCheck" value="K2" checked> K2</label>
+      <section class="content">
+        <section class="card">
+          <div class="resultsHeader">
+            <h2>Results</h2>
+            <div class="count"><span id="count">0</span> matches</div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>W (sum of weights)</label>
-          <div class="row">
-            <input type="number" id="Wmin" placeholder="min (e.g. 0)" />
-            <span class="sep">to</span>
-            <input type="number" id="Wmax" placeholder="max (e.g. 121)" />
+          <div class="tableTop">
+            <div class="creditsLine">
+              Data provided by <a href="https://sites.google.com/view/miqureshi/home" target="_blank" rel="noopener">Imran Qureshi</a>.
+            </div>
+
+            <details class="defs">
+              <summary>Type definitions (tap to expand): K0 / K1 / K2 / CY3</summary>
+              <div class="defsBody">
+                <p>
+                  Let <em>X</em> be an index-1 isolated terminal Fano 4-fold and <em>|−K<sub>X</sub>|</em> its anticanonical linear system.
+                </p>
+                <ul>
+                  <li><strong>K0</strong>: <em>|−K<sub>X</sub>|</em> is empty (equivalently <em>h<sup>0</sup>(−K<sub>X</sub>) = 0</em>), so <em>X</em> has no anticanonical divisor and hence no anticanonical Calabi–Yau 3-fold section.</li>
+                  <li><strong>K1</strong>: <em>h<sup>0</sup>(−K<sub>X</sub>) = 1</em>, but the unique anticanonical member <em>Y ∈ |−K<sub>X</sub>|</em> is <em>not</em> a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
+                  <li><strong>K2</strong>: <em>h<sup>0</sup>(−K<sub>X</sub>) ≥ 2</em>, but a general member <em>Y ∈ |−K<sub>X</sub>|</em> is <em>not</em> a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
+                  <li><strong>CY3</strong>: the family admits an anticanonical section <em>Y ∈ |−K<sub>X</sub>|</em> that is a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
+                </ul>
+                <p class="small muted">
+                  “Basket” means the multiset of orbifold singularity types recorded for <em>X</em>; the “basket size” is the total count (including multiplicities).
+                </p>
+              </div>
+            </details>
           </div>
-          <div class="hint">For “W ≤ N”, fill only the max box. For “W ≥ N”, fill only the min box.</div>
-        </div>
 
-        <div class="field">
-          <label>Basket size (number of singularities)</label>
-          <div class="row">
-            <input type="number" id="Bmin" placeholder="min (e.g. 0)" />
-            <span class="sep">to</span>
-            <input type="number" id="Bmax" placeholder="max" />
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Codim</th>
+                  <th>Weights</th>
+                  <th>Degrees</th>
+                  <th>W</th>
+                  <th>Basket (#)</th>
+                  <th>Basket (terms)</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Text search</label>
-          <input type="text" id="q" placeholder="Search weights, degrees, basket text…" />
-          <div class="hint">Example: <code>1/17</code>, <code>1,1,2</code>, <code>2×</code></div>
-        </div>
-
-        <div class="field">
-          <label>Sort</label>
-          <select id="sort">
-            <option value="Wasc">W ↑</option>
-            <option value="Wdesc">W ↓</option>
-            <option value="Basc">Basket size ↑</option>
-            <option value="Bdesc">Basket size ↓</option>
-            <option value="codim">Codim (2→3)</option>
-            <option value="type">Type (CY3→K0→K1→K2)</option>
-            <option value="id">ID</option>
-          </select>
-        </div>
-
-        <div class="field actions">
-          <label>&nbsp;</label>
-          <div class="row">
-            <button id="reset" class="btn secondary" type="button">Reset</button>
-            <button id="downloadCsv" class="btn" type="button">Download CSV</button>
-          </div>
-          <div class="hint" id="status">Loading…</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="resultsHeader">
-        <h2>Results</h2>
-        <div class="count"><span id="count">0</span> matches</div>
-      </div>
-
-      <div class="tableWrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Codim</th>
-              <th>Weights</th>
-              <th>Degrees</th>
-              <th>W</th>
-              <th>Basket (#)</th>
-              <th>Basket (terms)</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-      <div class="small muted">
-        Tip: click a basket cell to copy its text.
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Definitions (K0, K1, K2, CY3)</h2>
-      <p>
-        The labels below follow the terminology used in the accompanying paper (see <em>Terminal_Fano_4.pdf</em> in the repository).
-        Let <em>X</em> be an index-1 isolated terminal Fano 4-fold and <em>|−K<sub>X</sub>|</em> its anticanonical linear system.
-      </p>
-      <ul>
-        <li><strong>K0</strong>: <em>|−K<sub>X</sub>|</em> is empty (equivalently <em>h<sup>0</sup>(−K<sub>X</sub>) = 0</em>), so <em>X</em> has no anticanonical divisor and hence no anticanonical Calabi–Yau 3-fold section.</li>
-        <li><strong>K1</strong>: <em>h<sup>0</sup>(−K<sub>X</sub>) = 1</em>, but the unique anticanonical member <em>Y ∈ |−K<sub>X</sub>|</em> is <em>not</em> a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
-        <li><strong>K2</strong>: <em>h<sup>0</sup>(−K<sub>X</sub>) ≥ 2</em>, but a general member <em>Y ∈ |−K<sub>X</sub>|</em> is <em>not</em> a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
-        <li><strong>CY3</strong>: the family admits an anticanonical section <em>Y ∈ |−K<sub>X</sub>|</em> that is a quasismooth Calabi–Yau 3-fold with isolated canonical orbifold points.</li>
-      </ul>
-      <p class="small muted">
-        “Basket” means the multiset of orbifold singularity types recorded for <em>X</em>; the “basket size” is the total count (including multiplicities).
-      </p>
-    </section>
+          <div class="small muted">Tip: click a basket cell to copy its text.</div>
+        </section>
+      </section>
+    </div>
   </main>
 
   <footer class="container footer">
     <p>
-      Data provided by <a href="https://sites.google.com/view/miqureshi/home" target="_blank" rel="noopener">Imran Qureshi</a>.
       Hosted as a static site on GitHub Pages.
     </p>
   </footer>
