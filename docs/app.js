@@ -182,15 +182,21 @@ function passesFilters(r){
 function sortRecords(arr){
   const s = $('sort').value;
   const out = [...arr];
-  if(s === 'Vasc') out.sort((a,b)=>cmpFrac(a.antiK4,b.antiK4) || a.id-b.id);
+
+  if(s === 'codim') out.sort((a,b)=>a.codim-b.codim || a.W-b.W || a.id-b.id);
+  else if(s === 'type') out.sort((a,b)=>typeOrder(a.type)-typeOrder(b.type) || a.W-b.W || a.id-b.id);
+
+  else if(s === 'Vasc') out.sort((a,b)=>cmpFrac(a.antiK4,b.antiK4) || a.id-b.id);
   else if(s === 'Vdesc') out.sort((a,b)=>cmpFrac(b.antiK4,a.antiK4) || a.id-b.id);
+
   else if(s === 'Wasc') out.sort((a,b)=>a.W-b.W || a.id-b.id);
   else if(s === 'Wdesc') out.sort((a,b)=>b.W-a.W || a.id-b.id);
+
   else if(s === 'Basc') out.sort((a,b)=>a.basket_count-b.basket_count || a.id-b.id);
   else if(s === 'Bdesc') out.sort((a,b)=>b.basket_count-a.basket_count || a.id-b.id);
-  else if(s === 'codim') out.sort((a,b)=>a.codim-b.codim || a.W-b.W || a.id-b.id);
-  else if(s === 'type') out.sort((a,b)=>typeOrder(a.type)-typeOrder(b.type) || a.W-b.W || a.id-b.id);
+
   else out.sort((a,b)=>a.id-b.id);
+
   return out;
 }
 
@@ -265,7 +271,10 @@ function resetFilters(){
   $('Vmin').value = '';
   $('Vmax').value = '';
   $('q').value = '';
-  $('sort').value = 'Vasc';
+
+  // ✅ default sort requested: codimension
+  $('sort').value = 'codim';
+
   render();
 }
 
@@ -332,6 +341,9 @@ async function init(){
     document.querySelectorAll('.typeCheck').forEach(cb => cb.addEventListener('input', rerender));
     $('reset').addEventListener('click', resetFilters);
     $('downloadCsv').addEventListener('click', downloadCSV);
+
+    // ✅ force default sort on first load
+    $('sort').value = 'codim';
 
     render();
   }catch(e){
