@@ -17,6 +17,7 @@ body{
 a{color:var(--accent); text-decoration:none;}
 a:hover{text-decoration:underline;}
 code{background:#0a1220;border:1px solid var(--border);padding:0.1rem 0.3rem;border-radius:0.4rem;}
+.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
 .container{max-width:1200px;margin:0 auto;padding:1.2rem;}
 h1{font-size:1.8rem; margin:0.2rem 0 0.6rem;}
 h2{font-size:1.2rem;margin:0 0 0.8rem;}
