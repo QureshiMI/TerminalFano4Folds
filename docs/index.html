@@ -11,7 +11,7 @@
     <h1>Terminal Fano 4-Folds (codim 2 &amp; 3) — Searchable Data</h1>
     <p class="lead">
       A client-side searchable catalogue of terminal Fano 4-fold weighted complete intersections (codimension 2 and 3).
-      Filter by <strong>W</strong> (sum of ambient weights), basket size, and type (<strong>K0</strong>, <strong>K1</strong>, <strong>K2</strong>, <strong>CY3</strong>).
+      Filter by <strong>W</strong> (sum of ambient weights), basket size, type (<strong>K0</strong>, <strong>K1</strong>, <strong>K2</strong>, <strong>CY3</strong>), and the invariant <strong>(−K<sub>X</sub>)<sup>4</sup></strong>.
     </p>
     <p class="small">
       <strong>W</strong> is defined as <em>W := ∑ w<sub>i</sub></em>, the sum of the ambient weights.
@@ -64,6 +64,16 @@
             </div>
 
             <div class="field">
+              <label>(−K<sub>X</sub>)<sup>4</sup></label>
+              <div class="row">
+                <input type="text" id="Vmin" placeholder="min (e.g. 1/100 or 0.01)" />
+                <span class="sep">to</span>
+                <input type="text" id="Vmax" placeholder="max (e.g. 3/7)" />
+              </div>
+              <div class="hint">Accepts fractions <code>a/b</code> or decimals. Leave a box empty for one-sided bounds.</div>
+            </div>
+
+            <div class="field">
               <label>Text search</label>
               <input type="text" id="q" placeholder="Search weights, degrees, basket text…" />
               <div class="hint">Example: <code>1/17</code>, <code>1,1,2</code>, <code>2×</code></div>
@@ -72,6 +82,8 @@
             <div class="field">
               <label>Sort</label>
               <select id="sort">
+                <option value="Vasc">(−KX)^4 ↑</option>
+                <option value="Vdesc">(−KX)^4 ↓</option>
                 <option value="Wasc">W ↑</option>
                 <option value="Wdesc">W ↓</option>
                 <option value="Basc">Basket size ↑</option>
@@ -132,8 +144,7 @@
                   <th>Codim</th>
                   <th>Weights</th>
                   <th>Degrees</th>
-                  <th>W</th>
-                  <th>Basket (#)</th>
+                  <th>(−K<sub>X</sub>)<sup>4</sup></th>
                   <th>Basket (terms)</th>
                   <th>Type</th>
                 </tr>
